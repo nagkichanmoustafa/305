@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width">
+    <title>Crypto </title>
+
+    <style>
+        body {
+            max-width: 500px;
+        }
+        
+        div {
+            margin: 12px 0;
+        }
+        
+        img {
+            max-width: 100%;
+            border: 1px solid darkgray;
+        }
+        
+        #remote {
+            width: 290px;
+            font: 13px arial, sans-serif;
+            margin: 14px 0;
+            border: 1px solid darkgray;
+            padding: 5px;
+        }
+        
+        #sample,
+        #out {
+            overflow-x: auto;
+        }
+        
+        #disp1 {
+            color: blue;
+        }
+    </style>
+</head>
+
+<body>
+    <h2 id=title></h2>
+
+    <div>
+        URL:
+        <input type=text id=remote onchange='shaFromURL(this.value)'> <br>
+        <input type=file id=button onChange='shaFromFile(this.files[0])'>
+    </div>
+    <div id=msg>Select from files </div>
+    <pre id=disp1></pre>
+
+    <hr>
+    <b>Sample code</b>
+    <pre id=sample></pre>
+    <hr>
+    <p>Ref:
+        <a href="Objects">Objects</a> &nbsp;
+        <a href="Reading_files">Reading files</a>
+    </p>
+
+    <script>
+        "use strict";
+
+
+        function shaFromBuffer(buff) {
+            crypto.subtle.digest('SHA-1', buff)
+                .then(b => report(bufferToHex(b)))
+                .catch(report)
+        }
+
+        function shaFromFile(f) {
+
+            f.arrayBuffer()
+                .then(shaFromBuffer)
+        }
+
+        function shaFromURL(u) {
+            fetch(u).then(r => r.arrayBuffer())
+                .then(shaFromBuffer)
+        }
+
+        function report(str) {
+            msg.innerText = str;
+            console.log(str);
+        }
+
+        function bufferToHex(buf) {
+            return [...new Uint8Array(buf)].map(b => b.toString(16).padStart(2, '0')).join('');
+        }
+        title.innerText = document.title
+        sample.innerText = shaFromFile + '\n' + shaFromBuffer + '\n' + shaFromURL + '\n' + report;
+    </script>
+
+</body>
+
+</html>

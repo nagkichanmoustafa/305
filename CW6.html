@@ -4,7 +4,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width">
-    <link rel="icon" href="https://blm-fsmvu.github.io/305/images/icon192.png">
     <title>Nagkichan MOUSTAFA </title>
 
     <style>
@@ -21,6 +20,18 @@
         span,
         #url {
             color: blue;
+        }
+        
+        #lev {
+            color: rgb(8, 140, 52);
+        }
+        
+        #plat {
+            color: rgb(150, 60, 60);
+        }
+        
+        #loc {
+            color: rgb(255, 132, 0);
         }
     </style>
 </head>
@@ -39,7 +50,7 @@
         Location: <span id=loc></span>
     </p>
     <p title="Does the URL exist?">
-        URL <input type=url id=url value="https://nagkichanmoustafa.github.io/" onChange="check()"> <span id=resp></span>
+        URL <input type=url id=url value="https://nagkichanmoustafa.github.io/305/" onChange="check()"> <span id=resp></span>
     </p>
     <hr />
     <b>Sample code</b>
@@ -54,7 +65,8 @@
             plat.innerText = navigator.userAgentData.platform;
             navigator.geolocation
                 .getCurrentPosition(p =>
-                    loc.innerText = p.coords.latitude.toFixed(4) + ' , ' + p.coords.longitude.toFixed(4)
+                    loc.innerText = p.coords.latitude.toFixed(4) +
+                    ' , ' + p.coords.longitude.toFixed(4)
                 );
             navigator.getBattery().then(b =>
                 lev.innerText = '%' + (b.level * 100).toFixed(0)

@@ -82,7 +82,8 @@
             window.onkeyup = e => kb.innerText = ''
 
 
-            navigator.getBattery().then(b => bl.innerText = b.charging ? 'Charging' : 'Discharging')
+            navigator.getBattery().then(b =>
+                bl.innerText = b.charging ? 'Charging' : 'Discharging')
             navigator.getBattery().then(
                 b => lev.innerText = '%' + (b.level * 100).toFixed(0))
 

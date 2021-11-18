@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="en-US">
+<SCRIPT LANGUAGE="JavaScript"></SCRIPT>
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width">
-    <title>T Distribution (Duzeltmeye calisiyorum)</title>
 
     <style>
         body {
@@ -14,73 +14,149 @@
         pre {
             overflow-x: auto;
         }
-        
-        input {
-            width: 50px
-        }
-        
-        #res {
-            padding-left: 20px;
-        }
     </style>
 </head>
 
 <body>
 
-    <h2 id=title></h2>
-    x = <input type=number id=sampleMean onChange="calculate()"> &emsp; n = <input type=number id=sampleSize onChange="calculate()"> &emsp; μ = <input type=number id=popMean onChange="calculate()"> &emsp; σ = <input type=number id=standartDev onChange="calculate()">    &emsp;
+    <h3>F Distribution</h3>
+    <FORM>
+        <p>Enter Values for F Distribution</p>
+        <p>
+            <BR> x:
+            <INPUT TYPE="text" NAME="argument" Value="1.0" SIZE=3> df1:
+            <INPUT TYPE="text" NAME="f1" Value="2" SIZE=3> df2:
+            <INPUT TYPE="text" NAME="f2" Value="2" SIZE=3>
+            <INPUT TYPE="button" VALUE="Calculate" ONCLICK="compute(this.form)">
+        </p>
+        <BR> F Probability :
+        <INPUT TYPE="text" NAME=result>
+    </FORM>
     <span id=res></span>
     <pre id=out><b>Table</b></pre>
+
+    <p id=out></p>
 
     <hr />
     <b>Sample code</b>
     <pre id=sample></pre>
 
-
     <hr />
-    <p>Ref: <a href="https://www.tdistributiontable.com/" target="NewTab">T Table</a >&nbsp; 
-        <a href="https://www.wallstreetmojo.com/t-distribution-formula/">Formula</a> &nbsp;
+
     </p>
+
 
     <script>
         "use strict";
 
-        function t_Dist(x, n, μ, σ, f = 2) {
-            let t = (x - μ) / (σ / Math.sqrt(n));
-            return t.toFixed(f)
+
+        function LogGamma(Z) {
+            // with(Math) {
+            var S = 1 + 76.18009173 / Z - 86.50532033 / (Z + 1) + 24.01409822 / (Z + 2) - 1.231739516 / (Z + 3) + .00120858003 / (Z + 4) - .00000536382 / (Z + 5);
+            var LG = (Z - .5) * log(Z + 4.5) - (Z + 4.5) + log(S * 2.50662827465);
+            // }
+            return LG
         }
 
-        function calculate() {
-            let x = Number(sampleMean.value)
-            if (!Number.isInteger(x)) {
-                x = Math.round(x);
-                sampleMean.value = x
+        function Betinc(X, A, B) {
+            var A0 = 0;
+            var B0 = 1;
+            var A1 = 1;
+            var B1 = 1;
+            var M9 = 0;
+            var A2 = 0;
+            var C9;
+            while (Math.abs((A1 - A2) / A1) > .00001) {
+                A2 = A1;
+                C9 = -(A + M9) * (A + B + M9) * X / (A + 2 * M9) / (A + 2 * M9 + 1);
+                A0 = A1 + C9 * A0;
+                B0 = B1 + C9 * B0;
+                M9 = M9 + 1;
+                C9 = M9 * (B - M9) * X / (A + 2 * M9 - 1) / (A + 2 * M9);
+                A1 = A0 + C9 * A1;
+                B1 = B0 + C9 * B1;
+                A0 = A0 / B1;
+                B0 = B0 / B1;
+                A1 = A1 / B1;
+                B1 = 1;
             }
-            let n = Number(sampleSize.value)
-            let μ = Number(popMean.value)
-            let σ = Number(standartDev.value)
-            res.innerText = "\nT(x, n, μ, σ) = " + t_Dist(x, n, μ, σ);
+            return A1 / A
         }
 
-        function doTable() {
-            const L = [0.0005, 0.001, 0.005, 0.010, 0.025]
-            let a = L.map((n) => 'α= ' + n)
-            let str = header(a)
-            for (let x = 1; x <= 8; x++) {
-                let a = L.map((n, μ, σ) => t_Dist(x, n, μ, σ))
-                str += oneLine(a, x)
+        function Betacdf(Z, A, B) {
+            var S;
+            var BT;
+            var Bcdf;
+            with(Math) {
+                S = A + B;
+                BT = exp(LogGamma(S) - LogGamma(B) - LogGamma(A) + A * log(Z) + B * log(1 - Z));
+                if (Z < (A + 1) / (S + 2)) {
+                    Bcdf = BT * Betinc(Z, A, B)
+                } else {
+                    Bcdf = 1 - BT * Betinc(1 - Z, B, A)
+                }
             }
-            return str
+            return Bcdf
         }
-        let header = (a) => '      ' + a.join('  ')
-        let oneLine = (a, x) => '\nx=' + x + '   ' + a.join('    ')
+
+        function compute(form) {
+            X = eval(form.argument.value)
+            f1 = eval(form.f1.value)
+            f2 = eval(form.f2.value);
+            if (f1 <= 0) {
+                alert("Numerator degrees of freedom must be positive")
+            } else if (f2 <= 0) {
+                alert("Denominator degrees of freedom must be positive")
+            } else if (X <= 0) {
+                Fcdf = 0
+            } else {
+                Z = X / (X + f2 / f1);
+                Fcdf = Betacdf(Z, f1 / 2, f2 / 2);
+            }
+            Fcdf = Math.round(Fcdf * 100000) / 100000;
+            form.result.value = Fcdf;
+        }
+
+
+        /*
+
+                function t_Dist(x, n, f = 4) {
+                    let s = Math.pow((x / (n - 1)), 2)
+                    let s1 = Math.sqrt(s)
+                    let m = x / n;
+                    let t = (x - m) / (s1 / Math.sqrt(n));
+                    return t.toFixed(f)
+                }
+
+                function calculate() {
+                    let x = Number(ex.value)
+                    if (!Number.isInteger(x)) {
+                        x = Math.round(x);
+                        ex.value = x
+                    }
+                    let n = Number(lam.value)
+                    res.innerText = "P(x, n) = " + t_Dist(x, n);
+                }
+
+                function doTable() {
+                    const α = [0.0005, 0.001, 0.005, 0.010, 0.025, 0.05, 0.1]
+                    let a = α.map((n) => 'α= ' + n)
+                    let str = header(a)
+                    for (let x = 0; x <= 7; x++) {
+                        let a = α.map((α) => t_Dist(x, n))
+                        str += oneLine(a, x)
+                    }
+                    return str
+                }
+                */
+        let header = (a) => '      ' + a.join('   ')
+        let oneLine = (a, x) => '\nx=' + x + '  ' + a.join(' ')
 
         title.innerText = document.title
-        sample.innerText = t_Dist + '\n' + doTable
+        sample.innerText = t_Dist + '\n' + doTable + '\n' + calculate
         calculate()
         out.innerText = doTable()
     </script>
-
 
 </body>
 

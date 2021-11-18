@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width">
-    <title>T Distribution</title>
+    <title>T Distribution (Duzeltmeye calisiyorum)</title>
 
     <style>
         body {
@@ -18,63 +18,65 @@
         input {
             width: 50px
         }
+        
+        #res {
+            padding-left: 20px;
+        }
     </style>
 </head>
 
 <body>
 
     <h2 id=title></h2>
-    x = <input type=number id=ex value=0 onChange="calculate()"> &emsp; n = <input type=number id=lam value=1 onChange="calculate()"> &emsp;
+    x = <input type=number id=sampleMean onChange="calculate()"> &emsp; n = <input type=number id=sampleSize onChange="calculate()"> &emsp; μ = <input type=number id=popMean onChange="calculate()"> &emsp; σ = <input type=number id=standartDev onChange="calculate()">    &emsp;
     <span id=res></span>
     <pre id=out><b>Table</b></pre>
-
-    <p id=out></p>
 
     <hr />
     <b>Sample code</b>
     <pre id=sample></pre>
 
+
     <hr />
-
+    <p>Ref: <a href="https://www.tdistributiontable.com/" target="NewTab">T Table</a >&nbsp; 
+        <a href="https://www.wallstreetmojo.com/t-distribution-formula/">Formula</a> &nbsp;
     </p>
-
 
     <script>
         "use strict";
 
-        function t_Dist(x, n, f = 4) {
-            let s = Math.pow((x / (n - 1)), 2)
-            let s1 = Math.sqrt(s)
-            let m = x / n;
-            let t = (x - m) / (s1 / Math.sqrt(n));
+        function t_Dist(x, n, μ, σ, f = 2) {
+            let t = (x - μ) / (σ / Math.sqrt(n));
             return t.toFixed(f)
         }
 
         function calculate() {
-            let x = Number(ex.value)
+            let x = Number(sampleMean.value)
             if (!Number.isInteger(x)) {
                 x = Math.round(x);
-                ex.value = x
+                sampleMean.value = x
             }
-            let n = Number(lam.value)
-            res.innerText = "P(x, n) = " + t_Dist(x, n);
+            let n = Number(sampleSize.value)
+            let μ = Number(popMean.value)
+            let σ = Number(standartDev.value)
+            res.innerText = "\nT(x, n, μ, σ) = " + t_Dist(x, n, μ, σ);
         }
 
         function doTable() {
-            const α = [0.0005, 0.001, 0.005, 0.010, 0.025, 0.05, 0.1]
-            let a = α.map((n) => 'α= ' + n)
+            const L = [0.0005, 0.001, 0.005, 0.010, 0.025]
+            let a = L.map((n) => 'α= ' + n)
             let str = header(a)
-            for (let x = 0; x <= 7; x++) {
-                let a = α.map((α) => t_Dist(x, n))
+            for (let x = 1; x <= 8; x++) {
+                let a = L.map((n, μ, σ) => t_Dist(x, n, μ, σ))
                 str += oneLine(a, x)
             }
             return str
         }
-        let header = (a) => '      ' + a.join('   ')
-        let oneLine = (a, x) => '\nx=' + x + '  ' + a.join(' ')
+        let header = (a) => '      ' + a.join('  ')
+        let oneLine = (a, x) => '\nx=' + x + '   ' + a.join('    ')
 
         title.innerText = document.title
-        sample.innerText = t_Dist + '\n' + doTable + '\n' + calculate
+        sample.innerText = t_Dist + '\n' + doTable
         calculate()
         out.innerText = doTable()
     </script>

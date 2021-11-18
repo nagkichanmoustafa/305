@@ -30,27 +30,26 @@
 <body>
     <!-- HTML comment: Modify all items marked xxx -->
 
-    <h2 id=title title="Modify"></h2>
+    <h2 id=title></h2>
 
-    <p title="Battery level (integer)">
-        Battery level: <span id=lev></span>
-    </p>
+    <b>Battery Level: 
+        <span id=lev></span>
+    </b>
 
     <hr />
-    <b>Online Status
-    <pre id=stat></pre>
+    <b>Online Status: 
+    <span id=stat></span>
 </b>
 
     <hr />
-    <b>Keyboard
-<pre id=kb></pre>
+    <b>Keyboard: 
+<span id=kb></span>
 </b>
 
 
     <hr />
     <b>Sample code</b>
     <pre id=sample>This text is not shown. Why?</pre>
-
     <hr />
 
     <script>
@@ -64,23 +63,30 @@
             document.getElementById('kb').style.color = randomColors();
         }
 
+
+
         function init() {
-            window.onoffline = e => stat.innerText = e.type;
             window.ononline = e => stat.innerText = e.type;
+            window.onoffline = e => stat.innerText = e.type;
+
             window.onkeydown = e => {
                 kb.innerText = e.key
                 randomize();
             }
             window.onkeyup = e => kb.innerText = ''
 
-            navigator.getBattery().then(b =>
-                lev.innerText = '%' + (b.level * 100).toFixed(0)
-            );
+
+            navigator.getBattery().then(b.onlevelchange =
+                e => lev.innerText = '%' + (b.level * 100).toFixed(0) + ' ' + b.charging)
+            navigator.getBattery().then(b.onchargingchange =
+                e => lev.innerText = '%' + (b.level * 100).toFixed(0) + ' ' + b.charging)
+
 
         }
 
 
         title.innerText = document.title;
+
         sample.innerText = init + '\n' + randomize + '\n' + randomColors
         init();
     </script>

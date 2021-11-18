@@ -17,6 +17,10 @@
             color: rgb(8, 140, 52);
         }
         
+        #bl {
+            color: rgb(19, 6, 255);
+        }
+        
         #stat {
             color: rgb(19, 6, 255);
         }
@@ -35,7 +39,9 @@
     <b>Battery Level: 
         <span id=lev></span>
     </b>
-
+    <p>State:
+        <span id=bl></span>
+    </p>
     <hr />
     <b>Online Status: 
     <span id=stat></span>
@@ -76,10 +82,9 @@
             window.onkeyup = e => kb.innerText = ''
 
 
-            navigator.getBattery().then(b.onlevelchange =
-                e => lev.innerText = '%' + (b.level * 100).toFixed(0) + ' ' + b.charging)
-            navigator.getBattery().then(b.onchargingchange =
-                e => lev.innerText = '%' + (b.level * 100).toFixed(0) + ' ' + b.charging)
+            navigator.getBattery().then(b => bl.innerText = b.charging ? 'Charging' : 'Discharging')
+            navigator.getBattery().then(
+                b => lev.innerText = '%' + (b.level * 100).toFixed(0))
 
 
         }

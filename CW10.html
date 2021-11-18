@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width">
+    <title>Nagkichan MOUSTAFA </title>
+
+    <style>
+        /* CSS comment */
+        
+        body {
+            max-width: 440px;
+        }
+        
+        #url {
+            width: 190px;
+        }
+        
+        span,
+        #url {
+            color: blue;
+        }
+        
+        #lev {
+            color: rgb(8, 140, 52);
+        }
+        
+        #plat {
+            color: rgb(150, 60, 60);
+        }
+        
+        #loc {
+            color: rgb(255, 132, 0);
+        }
+    </style>
+</head>
+
+<body>
+    <!-- HTML comment: Modify all items marked xxx -->
+
+    <h2 id=title title="Modify"></h2>
+    <p title="navigator.platform">
+        Platform: <span id=plat></span>
+    </p>
+    <p title="Battery level (integer)">
+        Battery level: <span id=lev></span>
+    </p>
+    <p title="Latitude/Longitude (4 digits)">
+        Location: <span id=loc></span>
+    </p>
+    <p title="Does the URL exist?">
+        URL <input type=url id=url value="https://nagkichanmoustafa.github.io/305/" onChange="check()"> <span id=resp></span>
+    </p>
+    <hr />
+    <b>Sample code</b>
+    <pre id=sample>This text is not shown. Why?</pre>
+
+    <hr />
+
+    <script>
+        "use strict";
+
+        function init() {
+            plat.innerText = navigator.userAgentData.platform;
+            navigator.geolocation
+                .getCurrentPosition(p =>
+                    loc.innerText = p.coords.latitude.toFixed(4) +
+                    ' , ' + p.coords.longitude.toFixed(4)
+                );
+            navigator.getBattery().then(b =>
+                lev.innerText = '%' + (b.level * 100).toFixed(0)
+            );
+            check()
+        }
+
+        function check() {
+            fetch(url.value).then(r => resp.innerText = r.ok ? "OK" : "")
+                .catch(e => resp.innerText = e)
+        }
+        title.innerText = document.title;
+        sample.innerText = init + '\n' + check;
+        init();
+    </script>
+
+</body>
+
+</html>

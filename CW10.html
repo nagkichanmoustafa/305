@@ -13,25 +13,16 @@
             max-width: 440px;
         }
         
-        #url {
-            width: 190px;
-        }
-        
-        span,
-        #url {
-            color: blue;
-        }
-        
         #lev {
             color: rgb(8, 140, 52);
         }
         
-        #plat {
-            color: rgb(150, 60, 60);
+        #stat {
+            color: rgb(19, 6, 255);
         }
         
-        #loc {
-            color: rgb(255, 132, 0);
+        #kb {
+            color: rgb(255, 6, 93);
         }
     </style>
 </head>
@@ -40,18 +31,22 @@
     <!-- HTML comment: Modify all items marked xxx -->
 
     <h2 id=title title="Modify"></h2>
-    <p title="navigator.platform">
-        Platform: <span id=plat></span>
-    </p>
+
     <p title="Battery level (integer)">
         Battery level: <span id=lev></span>
     </p>
-    <p title="Latitude/Longitude (4 digits)">
-        Location: <span id=loc></span>
-    </p>
-    <p title="Does the URL exist?">
-        URL <input type=url id=url value="https://nagkichanmoustafa.github.io/305/" onChange="check()"> <span id=resp></span>
-    </p>
+
+    <hr />
+    <b>Online Status
+    <pre id=stat></pre>
+</b>
+
+    <hr />
+    <b>Keyboard
+<pre id=kb></pre>
+</b>
+
+
     <hr />
     <b>Sample code</b>
     <pre id=sample>This text is not shown. Why?</pre>
@@ -61,25 +56,32 @@
     <script>
         "use strict";
 
+        function randomColors() {
+            return '#' + Math.floor(Math.random() * 16777215).toString(16);
+        }
+
+        function randomize() {
+            document.getElementById('kb').style.color = randomColors();
+        }
+
         function init() {
-            plat.innerText = navigator.userAgentData.platform;
-            navigator.geolocation
-                .getCurrentPosition(p =>
-                    loc.innerText = p.coords.latitude.toFixed(4) +
-                    ' , ' + p.coords.longitude.toFixed(4)
-                );
+            window.onoffline = e => stat.innerText = e.type;
+            window.ononline = e => stat.innerText = e.type;
+            window.onkeydown = e => {
+                kb.innerText = e.key
+                randomize();
+            }
+            window.onkeyup = e => kb.innerText = ''
+
             navigator.getBattery().then(b =>
                 lev.innerText = '%' + (b.level * 100).toFixed(0)
             );
-            check()
+
         }
 
-        function check() {
-            fetch(url.value).then(r => resp.innerText = r.ok ? "OK" : "")
-                .catch(e => resp.innerText = e)
-        }
+
         title.innerText = document.title;
-        sample.innerText = init + '\n' + check;
+        sample.innerText = init + '\n' + randomize + '\n' + randomColors
         init();
     </script>
 

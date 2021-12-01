@@ -1,0 +1,17 @@
+{
+    "manifest_version": 2,
+    "name": "305",
+    "version": "1",
+    "icons": [{
+        "src": "https://github.githubassets.com/images/modules/logos_page/Octocat.png",
+        "sizes": "192x192"
+    }],
+
+    "permissions": [],
+    "app": {
+        "background": {
+            "scripts": ["background.js"]
+        }
+    },
+    "minimum_chrome_version": "28"
+}

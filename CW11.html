@@ -4,7 +4,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width">
-    <link rel="icon" href="../images/icon192.png">
     <title>GitHub Users</title>
     <style>
         body {
@@ -78,7 +77,9 @@
             out.innerHTML = `<img src="${u.avatar_url}">`
                 //add name and location
             let s = (u.name || u.login)
-            if (u.location) s += ', ' + u.location
+            if (u.location) s += BR + u.login
+            if (u.location) s += BR + u.location
+
             out.innerHTML += BR + BR + BR + BR + BR + BR + BR + BR + BR + BR + s + BR;
             console.log(s)
                 //add link to GitHub 
@@ -87,7 +88,9 @@
                 `<a href="https://${h}" target=NewTab>${h}</a>`
                 //add repo count and repo names
             let n = u.email
-            out.innerHTML += BR + `Email: ` + u.email + BR + BR
+            if (u.email) n += BR + u.email
+            out.innerHTML += BR + n + BR
+            out.innerHTML += `Company: ` + u.company + BR + BR
             if (!n) return
             let b = await toJSON(URL + u.login + "/repos")
             out.innerHTML += b.map(x => x.name).join(", ")
@@ -96,7 +99,7 @@
         sample.innerText = toJSON + '\n' + readUser
         readUser()
     </script>
-    <script src="../navbar.js"></script>
+
 
 </body>
 

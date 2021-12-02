@@ -12,8 +12,7 @@
         }
         
         img {
-            padding-right: 12px;
-            width: 64px;
+            width: 150px;
             float: left;
         }
         
@@ -22,7 +21,7 @@
         }
         
         #out {
-            color: blue;
+            color: rgb(0, 0, 0);
         }
     </style>
 </head>
@@ -30,7 +29,7 @@
 <body>
 
     <h2 id=title></h2>
-    <input type=text id=usr value=blm-fsmvu onChange="readUser()">
+    <input type=text id=usr value=nagkichanmoustafa onChange="readUser()">
     <p id=out>Reading data</p>
     <hr />
     <b>Sample code</b>
@@ -80,15 +79,15 @@
                 //add name and location
             let s = (u.name || u.login)
             if (u.location) s += ', ' + u.location
-            out.innerHTML += s + BR;
+            out.innerHTML += BR + BR + BR + BR + BR + BR + BR + BR + BR + BR + s + BR;
             console.log(s)
                 //add link to GitHub 
             let h = "github.com/" + u.login
             out.innerHTML +=
                 `<a href="https://${h}" target=NewTab>${h}</a>`
                 //add repo count and repo names
-            let n = u.public_repos
-            out.innerHTML += BR + `${n} public repos` + BR + BR
+            let n = u.email
+            out.innerHTML += BR + `Email: ` + u.email + BR + BR
             if (!n) return
             let b = await toJSON(URL + u.login + "/repos")
             out.innerHTML += b.map(x => x.name).join(", ")

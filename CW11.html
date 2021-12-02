@@ -77,23 +77,19 @@
             out.innerHTML = `<img src="${u.avatar_url}">`
                 //add name and location
             let s = (u.name || u.login)
-            if (u.location) s += BR + u.login
-            if (u.location) s += BR + u.location
+            if (u.location) s += BR + `Username: ` + u.login
+            if (u.location) s += BR + `Location: ` + u.location
 
             out.innerHTML += BR + BR + BR + BR + BR + BR + BR + BR + BR + BR + s + BR;
             console.log(s)
                 //add link to GitHub 
             let h = "github.com/" + u.login
             out.innerHTML +=
-                `<a href="https://${h}" target=NewTab>${h}</a>`
-                //add repo count and repo names
-            let n = u.email
-            if (u.email) n += BR + u.email
-            out.innerHTML += BR + n + BR
-            out.innerHTML += `Company: ` + u.company + BR + BR
-            if (!n) return
-            let b = await toJSON(URL + u.login + "/repos")
-            out.innerHTML += b.map(x => x.name).join(", ")
+                `Github Account: ` + `<a href="https://${h}" target=NewTab>${h}</a>`
+                //Company
+            out.innerHTML += BR + `Company: ` + u.company + BR + BR
+                //let b = await toJSON(URL + u.login + "/repos")
+                //out.innerHTML += b.map(x => x.name).join(", ")
         }
         title.innerText = document.title
         sample.innerText = toJSON + '\n' + readUser

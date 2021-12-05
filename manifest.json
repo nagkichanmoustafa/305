@@ -7,7 +7,7 @@
     "theme-color": "blue",
     "icons": [{
 
-        "src": ".../Pictures/Screenshots/Octocat.png",
+        "src": ".../images/Octocat.png",
         "sizes": "192x192",
         "type": "image/png"
     }]

@@ -22,9 +22,18 @@
     <body>
 
         <h2 id=title></h2>
-        x = <input type=number id=ex value=0 onChange="calculate()"> &emsp; DF1 = <input type=number id=df1 value=1 onChange="calculate()"> &emsp; DF2 = <input type=number id=df2 value=1 onChange="calculate()"> &emsp;
-        <span id=res></span>
-        <pre id=out><b>Table</b></pre>
+        x = <input type=number id=ex value=1 onChange="calculate()"> &emsp;
+        <BR> df1 = <input type=number id=df1 value=2 onChange="calculate()"> &emsp;
+        <BR>df2 = <input type=number id=df2 value=2 onChange="calculate()"> &emsp;
+        <BR>
+        <BR>
+
+        <b> <span id=res></span> </b>
+        <br><br>
+        <hr /> <b>Table</b>
+        <pre id=out>
+            
+        </pre>
 
         <hr />
         <b>Sample code</b>
@@ -100,48 +109,31 @@
                     Fcdf = Betacdf(Z, f1 / 2, f2 / 2);
                 }
                 Fcdf = Math.round(Fcdf * 100000) / 100000;
-                res.innerText = 'Result = ' + Fcdf;
+                res.innerText = 'F(x,df1,df2) =  ' + Fcdf;
             }
 
 
-            /*
-
-                function t_Dist(x, n, f = 4) {
-                    let s = Math.pow((x / (n - 1)), 2)
-                    let s1 = Math.sqrt(s)
-                    let m = x / n;
-                    let t = (x - m) / (s1 / Math.sqrt(n));
-                    return t.toFixed(f)
-                }
-
-                function calculate() {
-                    let x = Number(ex.value)
-                    if (!Number.isInteger(x)) {
-                        x = Math.round(x);
-                        ex.value = x
-                    }
-                    let n = Number(lam.value)
-                    res.innerText = "P(x, n) = " + t_Dist(x, n);
-                }
-*/
             function doTable() {
-                const α = [0.0005, 0.001, 0.005, 0.010, 0.025, 0.05, 0.1]
-                let a = α.map((n) => 'α= ' + n)
+
+                const q = [1, 2, 3, 4, 5, 6]
+                let a = q.map((df1) => 'df1= ' + df1)
                 let str = header(a)
-                for (let x = 0; x <= 7; x++) {
-                    let a = α.map((α) => t_Dist(x, n))
+                for (let x = 1; x <= 6; x++) {
+                    y += 1;
+
+                    let a = q.map((q) => calculate())
                     str += oneLine(a, x)
                 }
                 return str
             }
 
             let header = (a) => '      ' + a.join('   ')
-            let oneLine = (a, x) => '\nx=' + x + '  ' + a.join(' ')
+            let oneLine = (a, x) => '\ndf2=' + x + '  ' + a.join(' ')
 
-            //title.innerText = document.title
+            title.innerText = "F Distribution"
             sample.innerText = doTable + '\n' + calculate
             calculate()
-                // out.innerText = doTable()
+            out.innerText = doTable()
         </script>
 
     </body>

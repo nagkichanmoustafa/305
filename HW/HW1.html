@@ -47,14 +47,11 @@
 
 
     <script>
-        "use strict";
-
-
         function LogGamma(Z) {
-            //  with(Math) {
-            var S = 1 + 76.18009173 / Z - 86.50532033 / (Z + 1) + 24.01409822 / (Z + 2) - 1.231739516 / (Z + 3) + .00120858003 / (Z + 4) - .00000536382 / (Z + 5);
-            var LG = (Z - .5) * log(Z + 4.5) - (Z + 4.5) + log(S * 2.50662827465);
-            //}
+            with(Math) {
+                var S = 1 + 76.18009173 / Z - 86.50532033 / (Z + 1) + 24.01409822 / (Z + 2) - 1.231739516 / (Z + 3) + .00120858003 / (Z + 4) - .00000536382 / (Z + 5);
+                var LG = (Z - .5) * log(Z + 4.5) - (Z + 4.5) + log(S * 2.50662827465);
+            }
             return LG
         }
 
@@ -87,15 +84,15 @@
             var S;
             var BT;
             var Bcdf;
-            //with(Math) {
-            S = A + B;
-            BT = Math.exp(LogGamma(S) - LogGamma(B) - LogGamma(A) + A * Math.log(Z) + B * Math.log(1 - Z));
-            if (Z < (A + 1) / (S + 2)) {
-                Bcdf = BT * Betinc(Z, A, B)
-            } else {
-                Bcdf = 1 - BT * Betinc(1 - Z, B, A)
+            with(Math) {
+                S = A + B;
+                BT = Math.exp(LogGamma(S) - LogGamma(B) - LogGamma(A) + A * Math.log(Z) + B * Math.log(1 - Z));
+                if (Z < (A + 1) / (S + 2)) {
+                    Bcdf = BT * Betinc(Z, A, B)
+                } else {
+                    Bcdf = 1 - BT * Betinc(1 - Z, B, A)
+                }
             }
-            // }
             return Bcdf
         }
 
@@ -110,7 +107,7 @@
             } else if (X <= 0) {
                 Fcdf = 0
             } else {
-              let  Z = X / (X + f2 / f1);
+                let Z = X / (X + f2 / f1);
                 Fcdf = Betacdf(Z, f1 / 2, f2 / 2);
             }
             Fcdf = Math.round(Fcdf * 100000) / 100000;
@@ -137,25 +134,25 @@
                     let n = Number(lam.value)
                     res.innerText = "P(x, n) = " + t_Dist(x, n);
                 }
+*/
+        function doTable() {
+            const α = [0.0005, 0.001, 0.005, 0.010, 0.025, 0.05, 0.1]
+            let a = α.map((n) => 'α= ' + n)
+            let str = header(a)
+            for (let x = 0; x <= 7; x++) {
+                let a = α.map((α) => t_Dist(x, n))
+                str += oneLine(a, x)
+            }
+            return str
+        }
 
-                function doTable() {
-                    const α = [0.0005, 0.001, 0.005, 0.010, 0.025, 0.05, 0.1]
-                    let a = α.map((n) => 'α= ' + n)
-                    let str = header(a)
-                    for (let x = 0; x <= 7; x++) {
-                        let a = α.map((α) => t_Dist(x, n))
-                        str += oneLine(a, x)
-                    }
-                    return str
-                }
-                */
         let header = (a) => '      ' + a.join('   ')
         let oneLine = (a, x) => '\nx=' + x + '  ' + a.join(' ')
 
         //title.innerText = document.title
-        //  sample.innerText = t_Dist + '\n' + doTable + '\n' + calculate
-        // compute()
-        // out.innerText = doTable()
+        sample.innerText = doTable + '\n' + compute
+            // compute()
+            // out.innerText = doTable()
     </script>
 
 </body>

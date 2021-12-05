@@ -1,4 +1,4 @@
-const CACHE = 'JS2'
+const CACHE = 'AP'
 
 function installCB(e) {
     console.log(CACHE, e);
@@ -6,7 +6,7 @@ function installCB(e) {
 addEventListener('install', installCB)
 
 function save(req, resp) {
-    if (!req.url.includes("nagkichanmoustafa"))
+    if (!req.url.includes("github"))
         return resp;
     return caches.open(CACHE)
         .then(cache => { // save request

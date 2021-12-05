@@ -1,17 +1,14 @@
 {
-    "manifest_version": 2,
-    "name": "305",
-    "version": "1",
+    "name": "nagkichanmoustafa",
+    "short_name": "nagkichanmoustafa",
+    "start_url": "index.html",
+    "display": "standalone",
+    "background_color": "blue",
+    "theme-color": "blue",
     "icons": [{
-        "src": "https://github.githubassets.com/images/modules/logos_page/Octocat.png",
-        "sizes": "192x192"
-    }],
 
-    "permissions": [],
-    "app": {
-        "background": {
-            "scripts": ["background.js"]
-        }
-    },
-    "minimum_chrome_version": "28"
+        "src": ".../Pictures/Screenshots/Octocat.png",
+        "sizes": "192x192",
+        "type": "image/png"
+    }]
 }

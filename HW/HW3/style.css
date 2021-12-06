@@ -1,12 +1,12 @@
 body {
-    margin: 0;
-    background-image: linear-gradient(to top, rgba(209, 91, 91, 0));
     overflow-y: hidden;
+    background-size: auto 100%;
 }
 
 .car {
     position: absolute;
     bottom: 1%;
+    width: auto;
     left: 10%;
     background-repeat: repeat-y;
     animation: moveCar 0.9s linear infinite;
@@ -28,13 +28,13 @@ body {
 }
 
 .day {
-    height: 70vh;
-    width: 70vw;
-    margin: 5rem auto;
+    height: 550px;
+    width: auto;
     background: url("./images/road.png");
-    background-size: cover;
     position: relative;
+    left: 0;
     overflow-x: hidden;
+    background-size: auto 100%;
 }
 
 h1 {

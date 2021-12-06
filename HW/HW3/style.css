@@ -1,0 +1,52 @@
+body {
+    margin: 0;
+    background-image: linear-gradient(to top, rgba(209, 91, 91, 0));
+    overflow-y: hidden;
+}
+
+.car {
+    position: absolute;
+    bottom: 1%;
+    left: 25%;
+    background-repeat: repeat-y;
+    animation: moveCar 0.9s linear infinite;
+}
+
+.bird {
+    position: top;
+    display: block;
+    background-repeat: repeat-x;
+    animation: move 7s linear infinite;
+}
+
+.cloud {
+    position: top;
+    display: block;
+    background-repeat: repeat-x;
+    animation: move 5s linear infinite;
+}
+
+.day {
+    height: 80vh;
+    width: 70vw;
+    margin: 5rem auto;
+    background: url("./images/road.png");
+    background-size: cover;
+    position: relative;
+    overflow-x: hidden;
+}
+
+
+/*animation*/
+
+@keyframes move {
+    100% {
+        transform: translateX(+2900px)
+    }
+}
+
+@keyframes moveCar {
+    100% {
+        transform: translateY(+2px)
+    }
+}

@@ -108,7 +108,7 @@
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
     <script>
         "use strict";
-        let k = "dfe9560f05716b4a53ceb32ce756f074";
+
         document.getElementById("map").style.marginTop = "50px";
         var MAP //global
         function init() {
@@ -211,7 +211,7 @@
         var lat, lon; //global values
 
         var accessKey;
-
+        let k = "dfe9560f05716b4a53ceb32ce756f074";
         async function askWeather() {
             lat = document.getElementById("En").value;
             lon = document.getElementById("Boy").value;

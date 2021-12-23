@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width">
+    <link rel="icon" href="images/Octocat.png">
+    <link rel="manifest" href="manifest.json">
+    <title>Poisson Probabilites</title>
+
+    <style>
+        h2,
+        #output,
+        #demo {
+            font-family: Courier;
+        }
+        
+        .text {
+            color: black;
+            font-size: 12px;
+        }
+        
+        body {
+            max-width: 480px;
+        }
+        
+        #title {
+            font-size: 14px;
+        }
+    </style>
+</head>
+
+<body>
+    <div>
+        <center>
+            <h2>Poisson Probabilities</h2>
+
+            <pre id="output">Hello</pre>
+
+
+        </center>
+        <hr>
+        <h3>Sample Code</h3>
+
+        <pre class="text">
+function createFirstRow() {
+    let x = 0;
+    const p = [];
+    for (let lambda of L) {
+        p.push(Math.exp(-lambda))
+    }
+    return p;
+}
+function makeTable() {
+    firstRow = createFirstRow();
+    tableArray = []; 
+    tableStr = "     λ=0.5   λ=1   λ=1.5   λ=2   λ=2.5   λ=3\n";
+    for (let i = 0; i < 9; i++) {
+        tableStr += "x=" + i + "   ";
+        let newRow = [];
+        for (let j = 0; j < 6; j++) {
+            if (i == 0) {
+                tableStr += firstRow[j].toFixed(4) + " ";
+                newRow = firstRow;
+            } else {
+                newNumber = (((firstRow[j] * L[j]) / (i)))
+                newRow.push(newNumber);
+                tableStr += newNumber.toFixed(4) + " ";
+            }
+        }
+        newRow.push('\n');
+        tableStr += "\n";
+        tableArray.push(newRow);
+        firstRow = newRow;
+    }
+    output.innerText = tableStr;
+}
+        </pre>
+        <hr>
+        <img src="images/ss.png" alt="Screenshor of the Table" height="220px" width="413px">
+    </div>
+    <hr>
+    <p>Ref:
+        <a href="https://www.cuemath.com/data/poisson-distribution/" target=NewTab>Poisson distribution</a> &emsp;
+
+    </p>
+
+    <script>
+        const L = [0.5, 1, 1.5, 2, 2.5, 3];
+
+        function makeTable() {
+            firstRow = createFirstRow();
+            tableArray = [];
+            tableStr = "     λ=0.5   λ=1   λ=1.5   λ=2   λ=2.5   λ=3\n";
+            for (let i = 0; i < 9; i++) {
+                tableStr += "x=" + i + "   ";
+                let newRow = [];
+                for (let j = 0; j < 6; j++) {
+                    if (i == 0) {
+                        tableStr += firstRow[j].toFixed(4) + " ";
+                        newRow = firstRow;
+                    } else {
+                        newNumber = (((firstRow[j] * L[j]) / (i)))
+                        newRow.push(newNumber);
+                        tableStr += newNumber.toFixed(4) + " ";
+                    }
+                }
+                newRow.push('\n');
+                tableStr += "\n"
+                tableArray.push(newRow)
+                firstRow = newRow;
+            }
+            output.innerText = tableStr;
+        }
+
+        function createFirstRow() {
+            let x = 0;
+            const p = [];
+            for (let lambda of L) {
+                p.push(Math.exp(-lambda))
+            }
+            return p;
+
+        }
+
+        makeTable();
+    </script>
+</body>
+
+</html>

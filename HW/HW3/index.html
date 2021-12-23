@@ -24,10 +24,6 @@
             background-color: rgb(255, 255, 255);
             width: 400px;
         }
-        
-        #b {
-            size: 14px;
-        }
     </style>
 
 
@@ -43,6 +39,7 @@
 
         <button id="a" onClick="start()">Make Balls</button>
         <button id="b" onClick="Update()">Make Faster</button>
+        <button id="but" onClick="sandbox .animate(t1, 800)">rotate</button>
 
 
         <BR>
@@ -85,6 +82,8 @@
                     ctx.arc(this.x, this.y, this.r, 0, Math.PI * 2);
                     ctx.fill();
                 }
+
+
 
                 this.animate = function() {
                     this.x += this.dx;
@@ -142,8 +141,10 @@
                 requestAnimationFrame(Update);
             }
 
-
-
+            let t1 = {
+                transform: ["rotate(360deg)"]
+            };
+            sample.innerText = but.innerHTML
             sample.innerText = Update + '\n' + start + '\n' + makeBall
         </script>
     </body>

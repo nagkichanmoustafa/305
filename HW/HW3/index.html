@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width">
     <link rel="icon" href="images/Octocat.png">
     <link rel="manifest" href="manifest.json">
-    <title>Remote URL or Local file </title>
+
 
     <style>
         * {
@@ -17,26 +17,38 @@
         }
         
         canvas {
-            background-color: #a0c5c2;
+            background-color: #cecece;
         }
         
         body {
             background-color: rgb(255, 255, 255);
             width: 400px;
         }
+        
+        #b {
+            size: 14px;
+        }
     </style>
+
 
     <body>
         <BR>
-        <h3> Click on the screen!</h3>
+        <h3> Hypnotize</h3>
         <BR>
 
 
         <canvas id="sandbox"></canvas>
         <BR>
+
+
+        <button id="a" onClick="start()">Make Balls</button>
+        <button id="b" onClick="Update()">Make Faster</button>
+
+
         <BR>
         <BR>
         <div>
+
             <hr />
             <b>Sample code</b>
             <pre id=sample></pre>
@@ -94,23 +106,33 @@
 
 
             const balls = [];
-            for (let i = 0; i < 20; i++) {
-                let r = Math.floor(Math.random() * 15) + 5;
-                let x = Math.random() * (canvas.width - r * 2) + r;
-                let y = Math.random() * (canvas.height - r * 2) + r;
-                let c = 'orange'
-                balls.push(new Circle(x, y, r, c));
+
+            function makeBall(c) {
+                for (let i = 0; i < 20; i++) {
+                    let r = Math.floor(Math.random() * 15) + 5;
+                    let x = Math.random() * (canvas.width - r * 2) + r;
+                    let y = Math.random() * (canvas.height - r * 2) + r;
+
+                    balls.push(new Circle(x, y, r, c));
+                }
+                /* BONUS FEATURE */
+
             }
-            /* BONUS FEATURE */
-            canvas.addEventListener('click', function(e) {
-                let r = Math.floor(Math.random() * 15) + 5;
-                balls.push(new Circle(e.clientX, e.clientY, r, 'green'));
-                balls.push(new Circle(e.clientX, e.clientY, r, 'yellow'));
-                balls.push(new Circle(e.clientX, e.clientY, r, 'red'));
-            });
+
+
+            function start() {
+                document.getElementById("a").addEventListener("onClick", makeBall('black'));
+                document.getElementById("b").addEventListener("click", makeBall('white'));
+
+                for (let i = 0; i < balls.length; i++) {
+                    let ball = balls[i];
+                    ball.animate();
+                }
+
+            }
+
 
             function Update() {
-                ctx.clearRect(0, 0, canvas.width, canvas.height);
 
                 for (let i = 0; i < balls.length; i++) {
                     let ball = balls[i];
@@ -120,8 +142,9 @@
                 requestAnimationFrame(Update);
             }
 
-            sample.innerText = Update + '/n' + Circle
-            Update();
+
+
+            sample.innerText = Update + '\n' + start + '\n' + makeBall
         </script>
     </body>
 
